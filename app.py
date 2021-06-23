@@ -1,16 +1,37 @@
-from flask import Flask, request, jsonify, render_template, url_for
+from flask import Flask
+import json
+
 app = Flask(__name__)
+
+tasks = [
+    {
+        'id': 1,
+        'name': "task1",
+        "description": "This is task 1"
+    },
+    {
+        "id": 2,
+        "name": "task2",
+        "description": "This is task 2"
+    },
+    {
+        "id": 3,
+        "name": "task3",
+        "description": "This is task 3"
+    }
+]
+
+tasksJSON = json.dumps(tasks)
+
 
 @app.route('/')
 def home():
-    return 'Hello World'
+    return "App Works!!!"
 
-@app.route('/test_api', methods=["GET","POST"])
-def list_post():
-    json_body = request.get_json()
-    predictions = 2 * json_body[0]   
-    predictions = list(predictions)
-    return jsonify(results = predictions)
+
+@app.route('/api/tasks')
+def tasks():
+    return tasksJSON
 
 if __name__ == '__main__':
     app.run()
