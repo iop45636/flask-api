@@ -1,14 +1,16 @@
-from flask import Flask
-from flask_restful import Resource, Api
-
+from flask import Flask, request, jsonify, render_template, url_for
 app = Flask(__name__)
-api = Api(app)
 
-class HelloWorld(Resource):
-    def get(self):
-        return {'hello': 'world'}
+@app.route('/')
+def home():
+    return 'Hello World'
 
-api.add_resource(HelloWorld, '/')
+@app.route('/test_api', methods=["GET","POST"])
+def list_post():
+    json_body = request.get_json()
+    predictions = 2 * json_body[0]   
+    predictions = list(predictions)
+    return jsonify(results = predictions)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run()
